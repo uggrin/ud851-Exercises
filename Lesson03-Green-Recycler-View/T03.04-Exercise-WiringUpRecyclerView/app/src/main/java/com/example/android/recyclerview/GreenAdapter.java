@@ -26,12 +26,12 @@ import android.widget.TextView;
 /**
  * We couldn't come up with a good name for this class. Then, we realized
  * that this lesson is about RecyclerView.
- *
+ * <p>
  * RecyclerView... Recycling... Saving the planet? Being green? Anyone?
  * #crickets
- *
+ * <p>
  * Avoid unnecessary garbage collection by using RecyclerView and ViewHolders.
- *
+ * <p>
  * If you don't like our puns, we named this Adapter GreenAdapter because its
  * contents are green.
  */
@@ -40,6 +40,7 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
     private static final String TAG = GreenAdapter.class.getSimpleName();
 
     private int mNumberItems;
+    private int itemCount;
 
     /**
      * Constructor for GreenAdapter that accepts a number of items to display and the specification
@@ -49,9 +50,10 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
      */
     public GreenAdapter(int numberOfItems) {
         mNumberItems = numberOfItems;
+        itemCount = 0;
     }
+
     /**
-     *
      * This gets called when each new ViewHolder is created. This happens when the RecyclerView
      * is laid out. Enough ViewHolders will be created to fill the screen and allow for scrolling.
      *
@@ -71,6 +73,9 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
 
         View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
         NumberViewHolder viewHolder = new NumberViewHolder(view);
+
+        viewHolder.itemView.setBackgroundColor(ColorUtils.getViewHolderBackgroundColorFromInstance(context, itemCount));
+        itemCount++;
 
         return viewHolder;
     }
@@ -114,6 +119,7 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
          * Constructor for our ViewHolder. Within this constructor, we get a reference to our
          * TextViews and set an onClickListener to listen for clicks. Those will be handled in the
          * onClick method below.
+         *
          * @param itemView The View that you inflated in
          *                 {@link GreenAdapter#onCreateViewHolder(ViewGroup, int)}
          */
@@ -126,6 +132,7 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
         /**
          * A method we wrote for convenience. This method will take an integer as input and
          * use that integer to display the appropriate text within a list item.
+         *
          * @param listIndex Position of the item in the list
          */
         void bind(int listIndex) {
